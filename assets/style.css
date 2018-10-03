@@ -1,0 +1,9 @@
+h1{
+ text-align: center;
+}
+img{
+    height: 150px;
+}
+.col-lg-3{
+    border: solid black 2px;
+}

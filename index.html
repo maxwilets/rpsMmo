@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href='assets/style.css'>
+    <script type='text/javascript' src= 'assets/game.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+</head>
+<body>
+    <div class= "container">
+        <div class= 'col-lg-12'><h1>Welcome to the Amazing Multiplayer Online Firebase Game</h1></div>
+        <div class= 'row'>
+            <div class= 'col-lg-3'>
+                <h3>
+                    Choose Your Fighter!
+                </h3>
+                <div class="card" style="width: 10rem;">
+                    <img class="card-img-top" src="assets/images/knight.png" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Fighter</h5>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 10rem;">
+                    <img class="card-img-top" src="assets/images/ninja.jpg" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Ninja</h5>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 10rem;">
+                    <img class="card-img-top" src="assets/images/mage.jpg" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Mage</h5>
+                     
+                    </div>
+                  </div>
+        </div>
+        <div class= 'col-lg-6'>
+            <div id='you'>
+            
+            </div>
+            <div id= 'me'>
+            
+            </div>
+            <div id='score'></div>
+        </div>
+        <div class= 'col-lg-3'>
+            <h3>
+                Chat!
+            </h3>
+
+            <form role="form">
+                <div class="form-group row">
+                  <label for="name-input">Send a Message!</label>
+                  <input class="form-control" id="name-input" type="text">
+                </div>
+                <div class="messages"></div>
+                <button class="btn btn-default" id="add-user" type="submit">Chat!</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
