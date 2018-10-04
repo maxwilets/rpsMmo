@@ -4,6 +4,12 @@ h1{
 img{
     height: 150px;
 }
+card:hover{
+    border-color: lavender
+}
 .col-lg-3{
     border: solid black 2px;
+}
+.col-lg-6{
+    padding: 10px;
 }
