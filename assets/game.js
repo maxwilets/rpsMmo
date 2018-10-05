@@ -7,64 +7,89 @@ $(document).ready(function(){
         storageBucket: "rockpaper-f90b6.appspot.com",
         messagingSenderId: "103007121094"
       };
+      var playerName;
+      playerz = 0;
+
       firebase.initializeApp(config);
       var database = firebase.database();
-      var clickCount= 0;
-      var players = 0;
-      var playersAr = [];
-      function checkId(userId) {
-          database.ref('/players').child(userId).once('value',
-        function(snapshot){
-            if (snapshot.exists()) {
-                alert('this user exists')
-            }
-            else{
-                database.ref('/players').child("/")
-            }
-        })
-      }
-      $('#add-user').on('click', function(e){
-              e.preventDefault();
-              var userId = $('#name-input').val().trim();
-              console.log(userId)
-              $('#top').empty();
-              $('#top').html('<h3> Welcome, ' + userId + ' choose a fighter, then hit the submit! </h3>');
-              players ++;
-              checkId(userId);
-              for (i=0; i < playersAr.length; i++) {
-                  if (userId == playersAr[i]) {
-                      console.log('youve been here before');
-                  }
-              }
+       userName = 0
+      var player = {
+          player1: {
+              name: 0,
+              play: 1
+          },
+        
+          player2:{
+              name: 0,
+              play: 1
 
-              $('img').on('click', function(){
-                 userChoice = $(this).attr('data-person');
-                 console.log(userChoice);
-                
-                 $('#fighterBtn').on('click', function(){
-                     console.log(userChoice);
-                     finalChoice = userChoice;
-                     console.log(finalChoice);
-                     $('#top').empty();
-                     $('#top').html('<h3> You chose ' +finalChoice +'</h3> <p> Now wait for the other player to make a choice </p>')
-                    
-                     playersAr.push(userId);
-                    
-                     database.ref('/players'+ userId).set(
-                    {
-                       userId : userId,
-                       choice: finalChoice
-                   }
-                );
-                 
+          },
+          plays: {
+              myTurn: 1,
+              opTurn: 1
+          },
+          wins: {
+              myWins: 0,
+              yourWin: 0,
+              ties: 0
+          },
+          oppName: null
+      };
+
+      
+        nameUp = function(){
+            if (player.player1.name === 0){
+            $('#add-user').on('click', function(){
+                console.log('cat')
+                playerz++;
+                userName = $('#name-input').val().trim();
+                console.log(userName);
+                player.player1.name = userName;
+                console.log(player.player1.name)
+               database.ref().set({
+                    player1: {
+                       name: userName,
+                       play: 0
                     }
-                );
-              
-                
-                }
-            );
-             
-      })
-           
+                   }
+               )
+            })
+        }
+         else if((player.player1.name !== 0) && (player.player.name ===0)){
+             $('#add-user').on('click', function(){
+                 console.log('dog')
+                 userName= $('#name-input').val().trim();
+                 database.ref().set({
+                     player2: {
+                         name: userName,
+                         play: 0
+                     }
+                 })
+             })
+         }  
+        }
+      
+     console.log('test1')
+     var connectionsRef = database.ref('/connection');
 
-})
+     var connectedRef = database.ref('.info/connected');
+
+ //    connectedRef.on('value', function(snap) {
+ //        if (snap.val()) {
+ //            var con = connectionsRef.push(true);
+
+ //            con.onDisconnect().remove();
+ //        }
+ //    });
+ //     connectionsRef.on('value', function(snap){
+ //      numberP = (snap.numChildren());
+ //       $('#you').text(numberP);
+  //    });
+  //  
+
+     
+     
+   
+  
+   nameUp();
+    })
