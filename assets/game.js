@@ -20,7 +20,7 @@ $(document).ready(function(){
    var player2;
 
     $('#add-user').on('click', function(){
-        var userName = $('#name-input').val().trim();
+        userName = $('#name-input').val().trim();
         console.log('test')
 
         database.ref().once('value').then(function(snapshot){
@@ -34,6 +34,7 @@ $(document).ready(function(){
                 $('#top').empty();
                 $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + '<h3>' + '<p> wins: ')
                 player1 = true;
+                check();
            
             }
             else if((snapshot.child('player').child(1).exists()=== true) &&
@@ -43,10 +44,12 @@ $(document).ready(function(){
                        win: win2,
                        loss: loss2
                    })
+
                    $('#top').empty();
                    player1 = false
-                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + "<p> You're opponet is" + snapshot.child('player/1').val().name +'<h3>' )
-               }
+                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + "<p> You're opponet is" + snapshot.child('player/1').val().name +'<h3>' );
+                check();   
+            }
                else if ((snapshot.child('player').child(1).exists()) && (snapshot.child('player').child(2).exists())){
                    alert('too many people in the game room')
                }
@@ -55,8 +58,52 @@ $(document).ready(function(){
    
         })
         
+  var check = function(){
+      database.ref().on('value', function(snapshot){
+          console.log('almost');
+          console.log(userName)
+          if (userName == snapshot.child('player/1').val().name){
+              console.log('you got it!')
+              player1 = true
+          }
+          else if(userName === snapshot.child('player/2').val().name){
+              console.log('my man!');
+              player2 = true;
+          }
+      })
+  }
   
-      
+    var rps = function(){
+        if ((selection1 == 'knight') && (selection2 == 'mage')){
+            win1 ++;
+            console.log('plaer1 winz');
+        }
+        else if((selection1 == 'knight') && (selection2 == 'ninja')){
+            win2 ++;
+            console.log('player 2 wins')
+        }
+
+        else if((selection1 =='ninja') && (selection2 == 'knight')){
+            win1 ++
+            console.log(win)
+        }
+        else if ((selection1 == 'ninja') && (selection2 == 'mage')){
+            win2 ++;
+            console.log(win2)
+        }
+        else if ((selection1 == 'mage') && (selection2 == 'ninja')){
+            win1 ++;
+            console.log(win1)
+        }
+        else if ((selection1 =='mage') && (selection2 == 'knight')){
+            win2++;
+            console.log(win2)
+        }
+    } 
+    $('.card').on('click', function(){
+        selection = $(this).attr('data-person')
+        console.log(selection)
+    }) 
       
     database.ref().on('value', function(snapshot){
 
