@@ -70,9 +70,11 @@ $(document).ready(function(){
               console.log('my man!');
               player2 = true;
           }
-      })
+     
+        })
+        decide();
   }
-  
+
     var rps = function(){
         if ((selection1 == 'knight') && (selection2 == 'mage')){
             win1 ++;
@@ -100,11 +102,41 @@ $(document).ready(function(){
             console.log(win2)
         }
     } 
-    $('.card').on('click', function(){
-        selection = $(this).attr('data-person')
+   var decide= function(){ $('.card-img-top').on('click', function(){
+        var selection = $(this).attr('data-person')
         console.log(selection)
-    }) 
-      
+    
+
+    $("#fighterBtn").on('click', function(){
+        console.log('hi')
+        if (player1 === true){
+            selection1 = selection;
+            database.ref('player/1').set({
+                selection1: selection1,
+                name: userName,
+                win: win1,
+                loss: loss1
+            })
+
+               
+           // $('#me').append('<h2> Hi' +snapshot.child('player/1').val().selection1 +'</h2>')
+           
+        }
+        else if(player2 === true){
+            selection2 = selection;
+            database.ref('player/2').set({
+               selection2: selection2,
+               name: userName,
+               win: win2,
+               loss: loss2
+            })
+        }
+       
+
+        })
+    })
+}
+
     database.ref().on('value', function(snapshot){
 
         var disconnect = function(){
