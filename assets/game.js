@@ -81,7 +81,40 @@ $(document).ready(function(){
         })
           //calls the decide function, having scope issues unless the functions are nested
   //check
+ database.ref().on('value', function(snapshot){
+$('#chatSub').on('click', function(){
+    message = $('#chat-input').val();
+    console.log(message)
+    if (player1 == true){
+        database.ref().on('value', function(snapshot){
+            database.ref('player1message').set({
+                message: message
+            })
+           
+        })
+    }
+     if (player2 == true){
+        database.ref().on('value', function(snapshot){
+            database.ref('2mes').set({
+                message: message
+            })
+        })
+    }
+})
+ })
+database.ref().on('value', function(snapshot){
+    
+    $('.messages').append("<h3 style='background-color: green'>"+snapshot.child('player1message').val().message + '</h3>')
+     
+    
+ })
 
+ database.ref().on('value', function(snapshot){
+    
+     $('.messages').append("<h3 style = 'background-color: blue'>" +snapshot.child('2mes').val().message+ '</h3>')
+    
+  
+ })
     var rps = function(){
         
         database.ref().once('value', function(snapshot){
@@ -107,10 +140,10 @@ $(document).ready(function(){
             })
            
             if (player1 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
                }
                else if(player2 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
                }
         }
         else if((snapshot.child('player/1').val().selection1 == 'knight') && (snapshot.child('player/2').val().selection2 == 'ninja')){
@@ -132,10 +165,10 @@ $(document).ready(function(){
                 loss: loss2
             })
             if (player1 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
                }
                else if(player2 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
                }
         }
 
@@ -158,10 +191,10 @@ $(document).ready(function(){
                 loss: loss2
             })
            if (player1 == true){
-            $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+            $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
            }
            else if(player2 == true){
-            $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+            $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
            }
         }
         else if ((snapshot.child('player/1').val().selection1 == 'ninja') && (snapshot.child('player/2').val().selection2 == 'mage')){
@@ -182,10 +215,10 @@ $(document).ready(function(){
                 loss: loss2
             })
             if (player1 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
                }
                else if(player2 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
                }
         }
         else if ((snapshot.child('player/1').val().selection1 == 'mage') && (snapshot.child('player/2').val().selection2 == 'ninja')){
@@ -207,10 +240,10 @@ $(document).ready(function(){
                 loss: loss2
             })
             if (player1 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
                }
                else if(player2 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p > Loss: ' +loss2 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p > Loss: ' +loss2 +'</p> </h3>')
                }
         }
         else if ((snapshot.child('player/1').val().selection1 == 'mage') && (snapshot.child('player/2').val().selection2 == 'knight')){
@@ -233,10 +266,10 @@ $(document).ready(function(){
                 loss: loss2
             })
             if (player1 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
                }
                else if(player2 == true){
-                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+                $('#top').html('<h3> Choose another character to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
                }
         }
        
@@ -311,6 +344,7 @@ database.ref().on('value', function(snapshot){
 
 
 })
+
 var step2 =function(){ database.ref().on('value' , function(snapshot){
 
 
@@ -339,5 +373,5 @@ var step2 =function(){ database.ref().on('value' , function(snapshot){
             }
         }
     })//disconnect
-
+   
     })//document ready
