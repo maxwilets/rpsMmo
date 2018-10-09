@@ -16,6 +16,7 @@ $(document).ready(function(){
     var win2 = 0;
     var loss2 = 0;
     userName = '';
+    userName2= ''
    var player1;
    var player2;
 
@@ -32,23 +33,28 @@ $(document).ready(function(){
                    loss: loss1
                 });
                 $('#top').empty();
-                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + '<h3>' + '<p> wins: ')
+                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + '<h3>' + "<p class='winn'> wins: " + win1 + '</p>' + 
+                     "<p class= 'losss'> Loss: " + loss1 + '</p>')
                 player1 = true;
-                check();
+              //  check();
            
             }
             else if((snapshot.child('player').child(1).exists()=== true) &&
                ((snapshot.child('player').child(2).exists()=== false))){
-                   database.ref('player/2').set({
-                       name: userName,
+                userName2= userName  
+                database.ref('player/2').set({
+                       name: userName2,
                        win: win2,
                        loss: loss2
                    })
-
+                    player2 = true;
                    $('#top').empty();
-                   player1 = false
-                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja Mage!' + "<p> You're opponet is" + snapshot.child('player/1').val().name +'<h3>' );
-                check();   
+                   player1 = false;
+                
+                $('#top').html('<h3> Welcome, ' +userName + ' to Knight, Ninja, Mage!' + "<p> You're opponet is" + snapshot.child('player/1').val().name +
+                "<p class = 'winn'> wins: "+ win2+ "<p class='losss'> Loss: " + loss2+ '</p>'+'<h3>'
+             );
+                   
             }
                else if ((snapshot.child('player').child(1).exists()) && (snapshot.child('player').child(2).exists())){
                    alert('too many people in the game room')
@@ -58,85 +64,258 @@ $(document).ready(function(){
    
         })
         
-  var check = function(){
+  
       database.ref().on('value', function(snapshot){
-          console.log('almost');
-          console.log(userName)
+ 
           if (userName == snapshot.child('player/1').val().name){
               console.log('you got it!')
               player1 = true
+              
           }
           else if(userName === snapshot.child('player/2').val().name){
               console.log('my man!');
               player2 = true;
+              userName2 = userName
           }
-     
+          //decide();
         })
-        decide();
-  }
+          //calls the decide function, having scope issues unless the functions are nested
+  //check
 
     var rps = function(){
-        if ((selection1 == 'knight') && (selection2 == 'mage')){
+        
+        database.ref().once('value', function(snapshot){
+             userName2 = snapshot.child('player/2').val().name;
+             userName1= snapshot.child('player/1').val().name;
+        if ((snapshot.child('player/1').val().selection1 == 'knight') && (snapshot.child('player/2').val().selection2 == 'mage')){
             win1 ++;
+            loss2 ++;
             console.log('plaer1 winz');
+            $('#you').empty();
+            $('#you').html('<h3>' + snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2  + '</p> </h3>')
+            $("#me").html('<h3> Knight Beats Mage </h3>')
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+           
+            if (player1 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+               }
+               else if(player2 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+               }
         }
-        else if((selection1 == 'knight') && (selection2 == 'ninja')){
+        else if((snapshot.child('player/1').val().selection1 == 'knight') && (snapshot.child('player/2').val().selection2 == 'ninja')){
             win2 ++;
-            console.log('player 2 wins')
+            loss1 ++;
+            console.log('player 2 wins');
+            $('#you').empty();
+            $('#you').html('<h3>' + snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2  + '</p> </h3>')
+            $('#me').html('<h3> Ninja Beats Knight </h3>')
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+            if (player1 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+               }
+               else if(player2 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+               }
         }
 
-        else if((selection1 =='ninja') && (selection2 == 'knight')){
-            win1 ++
-            console.log(win)
-        }
-        else if ((selection1 == 'ninja') && (selection2 == 'mage')){
-            win2 ++;
-            console.log(win2)
-        }
-        else if ((selection1 == 'mage') && (selection2 == 'ninja')){
+        else if((snapshot.child('player/1').val().selection1 == 'ninja') && (snapshot.child('player/2').val().selection2 == 'knight')){
             win1 ++;
+            loss2 ++;
+           // console.log(win)
+           $('#you').empty();
+           $('#you').html('<h3>' + snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2  + '</p> </h3>')
+        $('#me').html('<h3> Ninja Beats Knight </h3>')
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+           if (player1 == true){
+            $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+           }
+           else if(player2 == true){
+            $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+           }
+        }
+        else if ((snapshot.child('player/1').val().selection1 == 'ninja') && (snapshot.child('player/2').val().selection2 == 'mage')){
+            win2 ++;
+            loss1 ++;
+            $('#you').empty();
+            $('#you').html('<h3>' + snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2  + '</p> </h3>')
+           $('#me').html('<h3> Mage Beats Ninja </h3>')
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+            if (player1 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+               }
+               else if(player2 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+               }
+        }
+        else if ((snapshot.child('player/1').val().selection1 == 'mage') && (snapshot.child('player/2').val().selection2 == 'ninja')){
+            win1 ++;
+            loss2 ++;
+            $('#you').empty();
+            $('#you').html('<h3>' + snapshot.child('player/1').val().name + 'chose' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + 'chose' + snapshot.child('player/2').val().selection2  + '</p> </h3>')
+            $('#me').html('<h3> Mage Beats Ninja </h3>')
             console.log(win1)
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+            if (player1 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+               }
+               else if(player2 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p > Loss: ' +loss2 +'</p> </h3>')
+               }
         }
-        else if ((selection1 =='mage') && (selection2 == 'knight')){
+        else if ((snapshot.child('player/1').val().selection1 == 'mage') && (snapshot.child('player/2').val().selection2 == 'knight')){
             win2++;
+            loss1 ++;
+            $('#you').empty();
+            $('#you').html('<h3>' + snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1 +
+            '<p>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2 + '</p> </h3>')
+            $('#me').html('Knight beats Mage </h3>')
             console.log(win2)
+            database.ref('player/1').set({
+                name: userName1,
+               win: win1,
+               loss: loss1
+            });
+
+            database.ref('player/2').set({
+                name: userName2,
+                win: win2,
+                loss: loss2
+            })
+            if (player1 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win1 + '</p> <p> Loss: ' +loss1 +'</p> </h3>')
+               }
+               else if(player2 == true){
+                $('#top').html('<h3> Choose another player to play again <p> Wins: ' + win2 + '</p> <p> Loss: ' +loss2 +'</p> </h3>')
+               }
         }
+       
+      else if (snapshot.child('player/1').val().selection1 == snapshot.child('player/2').val().selection2){
+          $('#you').html('<h3> The result was a tie! </h3>')
+      }
+    })
     } 
-   var decide= function(){ $('.card-img-top').on('click', function(){
+   //var decide= function(){
+        $('.card-img-top').on('click', function(){
         var selection = $(this).attr('data-person')
         console.log(selection)
     
 
     $("#fighterBtn").on('click', function(){
-        console.log('hi')
-        if (player1 === true){
-            selection1 = selection;
-            database.ref('player/1').set({
-                selection1: selection1,
-                name: userName,
-                win: win1,
-                loss: loss1
-            })
-
-               
-           // $('#me').append('<h2> Hi' +snapshot.child('player/1').val().selection1 +'</h2>')
-           
-        }
-        else if(player2 === true){
+        database.ref().on('value', function(snapshot){
+            userName2 = snapshot.child('player/2').val().name;
+            console.log(player1);
+            console.log(player2)
+        })
+        if (player2 === true){
             selection2 = selection;
             database.ref('player/2').set({
                selection2: selection2,
-               name: userName,
+               name: userName2,
                win: win2,
-               loss: loss2
+               loss: loss2,
+               player2ready: true
             })
+            
+         var choiceSet1 = true;  
+           // $('#me').append('<h2> Hi' +snapshot.child('player/1').val().selection1 +'</h2>')
+          selection = '' 
+        }
+        else {
+                selection1 = selection;
+                database.ref('player/1').set({
+                    selection1: selection1,
+                    name: userName,
+                    win: win1,
+                    loss: loss1,
+                    player1ready: true
+                })
+            var choiceSet2 = true;
+            selection = ''
         }
        
-
+      
         })
     })
-}
+//}; //decide
+var ready = firebase.database().ref('player').orderByKey();
+database.ref().on('value', function(snapshot){
+   // snapshot.forEach(function(childsnap){//
+        if ((snapshot.child('player/1').val().player1ready == true) && (snapshot.child('player/2').val().player2ready == true)){
+        //    $('#me').html('<h3>'+snapshot.child('player/1').val().name + ' chose ' + snapshot.child('player/1').val().selection1+'</h3>');
+        //    $('#you').html('<h3>' + snapshot.child('player/2').val().name + ' chose ' + snapshot.child('player/2').val().selection2+ '</h3>')
 
+            rps();
+     
+        }
+
+      //  else if ((snapshot.child('player/1').val().player1ready==true) && (snapshot.child('player/2').val().player2ready != true)){
+         
+       //     $('#you').html('<h3> Waiting for ' + snapshot.child('player/2').val().name + ' to make their choice')
+      //  }
+
+      //  else if ((snapshot.child('player/1').val().player1ready!=true) && (snapshot.child('player/2').val().player2ready == true)){
+       //     $('#you').html('<h3> Waiting for ' + snapshot.child('player/1').val().name + ' to make their choice')
+       // }
+    //    })//
+
+
+})
+var step2 =function(){ database.ref().on('value' , function(snapshot){
+
+
+})
+}
     database.ref().on('value', function(snapshot){
 
         var disconnect = function(){
@@ -159,6 +338,6 @@ $(document).ready(function(){
                 }
             }
         }
-    })
+    })//disconnect
 
-    })
+    })//document ready
