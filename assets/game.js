@@ -85,36 +85,39 @@ $(document).ready(function(){
 $('#chatSub').on('click', function(){
     message = $('#chat-input').val();
     console.log(message)
-    if (player1 == true){
-        database.ref().on('value', function(snapshot){
-            database.ref('player1message').set({
-                message: message
-            })
+    database.ref('messages').set({
+        message:message
+    })
+
+   
+  //  if (player1 == true){
+  //      $('.messages').append('<h3> '+ snapshot.child('messages').val().message)
+ //   }
+   // if (player1 == true){
+   // else if(player2 == true){
+   //     $('.messages').append('<h3>' + snapshot.child('messages').val().message)
+   // }
+     //       database.ref('player1message').set({
+       //         message: message
+         //   })
            
-        })
-    }
-     if (player2 == true){
-        database.ref().on('value', function(snapshot){
-            database.ref('2mes').set({
-                message: message
-            })
-        })
-    }
+        
+   // }
+    // if (player2 == true){
+        
+      //      database.ref('2mes').set({
+        //        message: message
+          //  })
+        
+    //}
 })
- })
-database.ref().on('value', function(snapshot){
+//$('.messages').append("<h3 style='background-color: green'>"+snapshot.child('player1message').val().message + '</h3>');
+
+//$('.messages').append("<h3 style = 'background-color: blue'>" +snapshot.child('2mes').val().message+ '</h3>')
     
-    $('.messages').append("<h3 style='background-color: green'>"+snapshot.child('player1message').val().message + '</h3>')
-     
-    
+$('.messages').append('<h5>' + snapshot.child('messages').val().message)
  })
 
- database.ref().on('value', function(snapshot){
-    
-     $('.messages').append("<h3 style = 'background-color: blue'>" +snapshot.child('2mes').val().message+ '</h3>')
-    
-  
- })
     var rps = function(){
         
         database.ref().once('value', function(snapshot){
@@ -319,6 +322,13 @@ database.ref().on('value', function(snapshot){
        
       
         })
+    })
+
+    $('.reset').on('click', function(){
+        database.ref().set({
+           
+        })
+        location.reload();
     })
 //}; //decide
 var ready = firebase.database().ref('player').orderByKey();
